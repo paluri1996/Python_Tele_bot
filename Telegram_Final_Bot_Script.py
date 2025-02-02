@@ -30,7 +30,9 @@ Please follow these rules:
 
 # Function to handle new members joining the group
 async def welcome_new_members(update: Update, context: CallbackContext):
+    print("New member joined!")  # Debug statement
     for new_member in update.message.new_chat_members:
+        print(f"Welcoming {new_member.first_name}")  # Debug statement
         # Get the current date and time
         join_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
@@ -48,6 +50,7 @@ async def welcome_new_members(update: Update, context: CallbackContext):
 
 # Function to handle the /rules command
 async def send_rules(update: Update, context: CallbackContext):
+    print("/rules command received")  # Debug statement
     await update.message.reply_text(GROUP_RULES, parse_mode='Markdown')
 
 # Function to handle any other messages (optional)
