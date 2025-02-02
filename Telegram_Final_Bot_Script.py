@@ -30,28 +30,34 @@ Please follow these rules:
 
 # Function to handle new members joining the group
 async def welcome_new_members(update: Update, context: CallbackContext):
-    print("New member joined!")  # Debug statement
-    for new_member in update.message.new_chat_members:
-        print(f"Welcoming {new_member.first_name}")  # Debug statement
-        # Get the current date and time
-        join_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        # Welcome message with rules and join time
-        welcome_message = (
-            f"Hello {new_member.first_name}! 👋\n\n"
-            f"Welcome to *Telugu Friends*!\n\n"
-            f"{GROUP_RULES}\n"
-            f"*Join Time*: {join_time}\n\n"
-            "Thank you for joining! 😊"
-        )
-        
-        # Send the welcome message
-        await update.message.reply_text(welcome_message, parse_mode='Markdown')
+    try:
+        print("New member joined!")  # Debug statement
+        for new_member in update.message.new_chat_members:
+            print(f"Welcoming {new_member.first_name}")  # Debug statement
+            # Get the current date and time
+            join_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # Welcome message with rules and join time
+            welcome_message = (
+                f"Hello {new_member.first_name}! 👋\n\n"
+                f"Welcome to *Telugu Friends*!\n\n"
+                f"{GROUP_RULES}\n"
+                f"*Join Time*: {join_time}\n\n"
+                "Thank you for joining! 😊"
+            )
+            
+            # Send the welcome message
+            await update.message.reply_text(welcome_message, parse_mode='Markdown')
+    except Exception as e:
+        print(f"Error in welcome_new_members: {e}")  # Debug statement
 
 # Function to handle the /rules command
 async def send_rules(update: Update, context: CallbackContext):
-    print("/rules command received")  # Debug statement
-    await update.message.reply_text(GROUP_RULES, parse_mode='Markdown')
+    try:
+        print("/rules command received")  # Debug statement
+        await update.message.reply_text(GROUP_RULES, parse_mode='Markdown')
+    except Exception as e:
+        print(f"Error in send_rules: {e}")  # Debug statement
 
 # Function to handle any other messages (optional)
 async def handle_message(update: Update, context: CallbackContext):
