@@ -1,4 +1,6 @@
 import os
+import signal
+import sys
 from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackContext
@@ -9,6 +11,7 @@ load_dotenv()
 
 # Get the bot token from environment variables
 BOT_TOKEN = os.getenv('BOT_TOKEN')
+
 # Check if the bot token is set
 if not BOT_TOKEN:
     raise ValueError("Please set the BOT_TOKEN environment variable in the .env file.")
@@ -52,7 +55,16 @@ async def handle_message(update: Update, context: CallbackContext):
     # You can add additional message handling logic here if needed
     pass
 
+# Signal handler for graceful shutdown
+def signal_handler(sig, frame):
+    print("Bot is shutting down...")
+    sys.exit(0)
+
 def main():
+    # Register the signal handler
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
     # Create an Application object with your bot token
     application = Application.builder().token(BOT_TOKEN).build()
 
